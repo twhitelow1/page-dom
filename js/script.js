@@ -95,9 +95,14 @@ showPage(students, 1);
    
 
    appendPageLinks(students);
+
+   
    const pagination = document.querySelector('.pagination ul')
    pagination.addEventListener('click', () => {
-      currentPage =  parseInt(event.target.textContent);
-      showPage(students, currentPage);
+      pageLinks = pagination.children;
+      currentPageNum =  parseInt(event.target.textContent); // grab the number clicked on set as int and save as current page
+      currentPageLink = Links[currentPageNum - 1];
+      currentPageLink.classList.toggle('active');
+      showPage(students, currentPageNum);
    });
 // Remember to delete the comments that came with this file, and replace them with your own code comments.
