@@ -18,7 +18,7 @@ FSJS project 2 - List Filter and Pagination
 ***/
 const students = document.querySelectorAll('.student-list li');
 const pageDiv = document.querySelector('.page');
-
+const totalPages = Math.round(students.length / 10);
 
 /*** 
    Create the `showPage` function to hide all of the items in the 
@@ -78,7 +78,7 @@ showPage(students, 1);
    */
 
    const appendPageLinks = (list) => {
-      const totalPages = Math.round(list.length / 10);
+      
       const div = document.createElement('div');
       div.className = "pagination";
       pageDiv.appendChild(div);
@@ -87,7 +87,7 @@ showPage(students, 1);
       for(let i = 0; i < totalPages; i ++){
          pageNum = i + 1;
          const li = document.createElement('li');
-         li.innerHTML = `<li> <a>${pageNum}</a> </li>`
+         li.innerHTML = ` <a>${pageNum}</a> `
          ul.appendChild(li); 
       }
    };
@@ -99,10 +99,31 @@ showPage(students, 1);
    
    const pagination = document.querySelector('.pagination ul')
    pagination.addEventListener('click', () => {
-      pageLinks = pagination.children;
-      currentPageNum =  parseInt(event.target.textContent); // grab the number clicked on set as int and save as current page
-      currentPageLink = Links[currentPageNum - 1];
-      currentPageLink.classList.toggle('active');
+      
+      // Grab the lis of the pagination ul
+      pageLinks = pagination.children;    
+
+      // Grab the number clicked on set as int and save as current page
+      currentPageNum =  parseInt(event.target.textContent); 
+      
+      /* Refresh Pagination Loop
+      /
+      // Loop through each link 
+      //    If the current selectedLink is the same as the current page numnber add active class
+      //    Else remove the active class from that links tag.
+      */
+
+      for(let i = 0; i < totalPages; i ++){
+         const selectedLink = pageLinks[i].children[0];
+         if(i === (currentPageNum - 1)){
+            selectedLink.classList.add('active');
+         } else {
+            console.log('inside else');
+            selectedLink.classList.remove('active');
+         }
+      }
+      
+      // Switch to the correct page
       showPage(students, currentPageNum);
    });
 // Remember to delete the comments that came with this file, and replace them with your own code comments.
