@@ -88,7 +88,7 @@ showPage(students, 1);
          pageNum = i + 1;
          const li = document.createElement('li');
          li.innerHTML = `<li> <a>${pageNum}</a> </li>`
-         ul.appendChild(li);
+         ul.appendChild(li); 
       }
    };
 
