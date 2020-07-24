@@ -84,16 +84,20 @@ showPage(students, 1);
       pageDiv.appendChild(div);
       const ul = document.createElement('ul')
       div.appendChild(ul);
-      for(let i = 0; i < totalPages; i ++){
+      for(let i = 0; i <= totalPages; i ++){
          pageNum = i + 1;
          const li = document.createElement('li');
-         li.innerHTML = ` <a>${pageNum}</a> `
+         if(pageNum === 1){
+            li.innerHTML = ` <a class="active">${pageNum}</a> `;
+         } else {
+            li.innerHTML = ` <a>${pageNum}</a> `
+         }
          ul.appendChild(li); 
       }
    };
 
    
-
+   // Set Original Pagelinks
    appendPageLinks(students);
 
    
@@ -126,4 +130,3 @@ showPage(students, 1);
       // Switch to the correct page
       showPage(students, currentPageNum);
    });
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
