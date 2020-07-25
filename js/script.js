@@ -12,11 +12,11 @@ A SIMPLE PROGRAM MEANT TO DISPLAY THE POWER OF THE DOM AND EVENT HANDLERS.
 *********************************************************/
 
 const students = document.querySelectorAll('.student-item');
-/* Variables to reference the `input` and search `button` elements */
 const search = document.querySelector('.search-input');
 const submit = document.querySelector('#submit');
 const studentsDetails = document.querySelectorAll('.student-details h3');
-const pagination = document.querySelector('.pagination ul')
+
+const pageDiv = document.querySelector('.page');
 let   itemsPerPage = 10;
 
 
@@ -54,7 +54,6 @@ const showPage = (list, page) => {
 
 const appendPageLinks = (list) => {
    const totalPages = Math.round(list.length / 10);
-   const pageDiv = document.querySelector('.page');
 
    // if only one page then don't make links
    if (totalPages === 1) {
@@ -86,6 +85,7 @@ const appendPageLinks = (list) => {
    *     EVENT LISTENER FOR PAGINATION LINKS
    *********************************************************/
    div.addEventListener('click', () => {
+      const pagination = document.querySelector('.pagination ul');
       // Grab the list of the pagination ul
       pageLinks = pagination.children;    
 
@@ -148,6 +148,16 @@ const buildSearchBar = () => {
       div.appendChild(input);
       div.appendChild(button);
 
+      // Build a no matches screen that is hidden at first
+         const noMatch = document.createElement('div');
+         noMatch.id = 'no-matches';
+         noMatch.textContent = "Sorry I couldn't find any results that match your search.";
+         noMatch.style.display = 'none';
+         noMatch.style.textAlign = 'center';
+
+      // Append the no match div
+      pageDiv.appendChild(noMatch);
+
          /* submit listener */
       button.addEventListener('click', (event) => {
          event.preventDefault();
@@ -171,6 +181,11 @@ buildSearchBar();
 *********************************************************/
 
 const searchBar = (searchInput, names) => {
+   // Clear any no results messages
+  const noMatchesNode = document.getElementById('no-matches');
+  noMatchesNode.style.display = 'none';
+
+
    // Clear any current pagination
    const pagination = document.querySelector('div.pagination');
 
@@ -208,9 +223,17 @@ const searchBar = (searchInput, names) => {
 
    // Grab all the student list elements with the class match. Use this group as
    // the list now instead of students
-   const matchItems = document.querySelectorAll('.match');
-   showPage(matchItems, 1);
-   appendPageLinks(matchItems);
+   const matches = document.querySelectorAll('.match');
+
+   // If no matches
+  if (matches.length === 0) {
+   noMatchesNode.style.display = '';
+   return;
+ };
+
+   // Build The Screen
+   showPage(matches, 1);
+   appendPageLinks(matches);
 };
 
  
