@@ -118,15 +118,8 @@ const appendPageLinks = (list) => {
       // Switch to the correct page
       showPage(students, currentPageNum);
    });
-
-   /******************************************************
-   *       END EVENT LISTENER FOR PAGINATION LINKS
-   *********************************************************/
 };
 
-   /******************************************************
-   *    END  appendPageLinks Function
-   *********************************************************/
 
 
 
