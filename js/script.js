@@ -1,7 +1,7 @@
 /******************************************
 Treehouse Techdegree:
 FSJS project 2 - List Filter and Pagination
-AUTHOR: TODD WHITELOW JR.
+@author TODD WHITELOW JR.
 DATE: 7/24/20
 
 A SIMPLE PROGRAM MEANT TO DISPLAY THE POWER OF THE DOM AND EVENT HANDLERS.
@@ -15,7 +15,6 @@ const students = document.querySelectorAll('.student-item');
 const search = document.querySelector('.search-input');
 const submit = document.querySelector('#submit');
 const studentsDetails = document.querySelectorAll('.student-details h3');
-
 const pageDiv = document.querySelector('.page');
 let   itemsPerPage = 10;
 
@@ -23,13 +22,22 @@ let   itemsPerPage = 10;
 /******************************************************
 *    
 * START  showPage Function
+*  @author: Todd Whitelow
+*  @param list {HTMLCollection} = HTML collection passed in
+*  @param page {number} = Page number
+*  @param lastItem {number} = number of the last item in list that should be on current page
+*  @param firstItem {number} = number of the first item in the list that should be on current page
 * 
+*  @return none.
+* 
+*  Function loops through the list and displays only the items that are supposed to be on page
 *********************************************************/
 
 const showPage = (list, page) => {
   lastItem = (page * itemsPerPage);
   firstItem = (page * itemsPerPage) - 10;
-
+   
+  // Cycle through all list items and check if is in between firstItem and lastItem
    for(let i = 0; i < list.length; i ++){
       let item = list[i];
       if(i >= firstItem && i < lastItem){
@@ -42,18 +50,13 @@ const showPage = (list, page) => {
 
 
 /******************************************************
-*    END  showPage Function
-*********************************************************/
-
-
-/******************************************************
 *        
 *     appendPageLinks Function
 *
 *********************************************************/
 
 const appendPageLinks = (list) => {
-   const totalPages = Math.round(list.length / 10);
+   const totalPages = Math.ceil(list.length / 10);
 
    // if only one page then don't make links
    if (totalPages === 1) {
@@ -119,6 +122,8 @@ const appendPageLinks = (list) => {
    /******************************************************
    *    END  appendPageLinks Function
    *********************************************************/
+
+
 
    /******************************************************
    *        
