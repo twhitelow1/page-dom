@@ -11,15 +11,13 @@ A SIMPLE PROGRAM MEANT TO DISPLAY THE POWER OF THE DOM AND EVENT HANDLERS.
 *    GLOBAL SCOPE VARIABLES
 *********************************************************/
 
-const students = document.querySelectorAll('.student-list li');
-const pageDiv = document.querySelector('.page');
-const totalPages = Math.ceil(students.length / 10);
+const students = document.querySelectorAll('.student-item');
+
+//const totalPages = Math.ceil(students.length / 10);
 const studentsDetails = document.querySelectorAll('.student-details h3');
 let   visibileStudents = students;
+let   itemsPerPage = 10;
 
-students.forEach(function (element) { 
-   console.log(element); 
- }); 
 
 /******************************************************
 *    
@@ -28,14 +26,15 @@ students.forEach(function (element) {
 *********************************************************/
 
 const showPage = (list, page) => {
-  lastItem = (page * 10) - 1;
-  firstItem = (page * 10) - 10;
+  lastItem = (page * itemsPerPage);
+  firstItem = (page * itemsPerPage) - 10;
 
    for(let i = 0; i < list.length; i ++){
-      if(i >= firstItem && i <= lastItem){
-         list[i].style.display = 'list-item';
+      let item = list[i];
+      if(i >= firstItem && i < lastItem){
+         item.style.display = 'list-item';
       } else {
-         list[i].style.display = 'none';
+         item.style.display = 'none';
       }
    };
 };
@@ -53,21 +52,25 @@ const showPage = (list, page) => {
 *********************************************************/
 
 const appendPageLinks = (list) => {
-   const totPages = Math.ceil(students.length / 10);
-   const div = document.createElement('div');
+   const totalPages = Math.round(list.length / 10);
+   const pageDiv = document.querySelector('.page');
 
-   // If there's only one page, do not display pagination
-   if (totPages === 1) {
+   // if only one page then don't make links
+   if (totalPages === 1) {
       return;
    };
 
+   //Build Pagination Div
+   const div = document.createElement('div');
    div.className = "pagination";
    pageDiv.appendChild(div);
+
+   // Build UL and add to pagination div
    const ul = document.createElement('ul')
    div.appendChild(ul);
 
-
-   for(let i = 0; i < totPages; i ++){
+   // Build Pagination Links
+   for(let i = 0; i < totalPages; i ++){
       pageNum = i + 1;
       const li = document.createElement('li');
       if(pageNum === 1){
@@ -78,39 +81,36 @@ const appendPageLinks = (list) => {
       ul.appendChild(li); 
    };
 
-   /******************************************************
-   *        
+   /******************************************************      
    *     EVENT LISTENER FOR PAGINATION LINKS
-   *
    *********************************************************/
 
    const pagination = document.querySelector('.pagination ul')
-   pagination.addEventListener('click', () => {
-   
-   // Grab the list of the pagination ul
-   pageLinks = pagination.children;    
+   div.addEventListener('click', () => {
+      // Grab the list of the pagination ul
+      pageLinks = pagination.children;    
 
-   // Grab the number clicked on set as int and save as current page
-   currentPageNum =  parseInt(event.target.textContent); 
-   
-   /* Refresh Pagination Loop
-   /
-   //    Loop through each link 
-   //    If the current selectedLink is the same as the current page numnber add active class
-   //    Else remove the active class from that links tag.
-   */
+      // Grab the number clicked on set as int and save as current page
+      currentPageNum =  parseInt(event.target.textContent); 
+      
+      /* Refresh Pagination Loop
+      /
+      //    Loop through each link 
+      //    If the current selectedLink is the same as the current page numnber add active class
+      //    Else remove the active class from that links tag.
+      */
 
-   for(let i = 0; i < totalPages; i ++){
-      const selectedLink = pageLinks[i].children[0];
-      if(i === (currentPageNum - 1)){
-         selectedLink.classList.add('active');
-      } else {
-         selectedLink.classList.remove('active');
+      for(let i = 0; i < totalPages; i ++){
+         const selectedLink = pageLinks[i].children[0];
+         if(i === (currentPageNum - 1)){
+            selectedLink.classList.add('active');
+         } else {
+            selectedLink.classList.remove('active');
+         }
       }
-   }
-   
-   // Switch to the correct page
-   showPage(matchItems, currentPageNum);
+      
+      // Switch to the correct page
+      showPage(students, currentPageNum);
    });
 
    /******************************************************
@@ -122,19 +122,12 @@ const appendPageLinks = (list) => {
    *    END  appendPageLinks Function
    *********************************************************/
 
-   
-   // Set Original Pagelinks
-   appendPageLinks(visibileStudents);
-
-  
-
-   
    /******************************************************
    *        
    *     buildSearchBar Function
    *
    *********************************************************/
-   const buildSearchBar = () => {
+const buildSearchBar = () => {
       const pageHeader = document.querySelector('.page-header');
       const div = document.createElement('div');
       div.classList.add('student-search');
@@ -147,61 +140,69 @@ const appendPageLinks = (list) => {
       pageHeader.appendChild(div);
       div.appendChild(input);
       div.appendChild(button);
-   }
 
-   buildSearchBar();   
+         /* submit listener */
+      button.addEventListener('click', (event) => {
+         event.preventDefault();
+         searchBar(input, students);
+      });
+      input.addEventListener('keyup', (event) => {
+         event.preventDefault();
+         searchBar(input, students);
+      });
+}
+buildSearchBar();
 
-   /******************************************************
-   *        
-   *     searchBar Function
-   *
-   *********************************************************/
-   /* Variables to reference the `input` and search `button` elements */
-   const search = document.querySelector('.search-input');
-   const submit = document.querySelector('#submit');
-   
-   const searchBar = (searchInput, names) => {
-      // Clear any current pagination
-      const pagination = document.querySelector('div.pagination');
-      if (pagination) {
-      pagination.parentNode.removeChild(pagination);
-      };
-      
-      for(let i = 0; i < names.length; i++) { 
-         const studentName = students[i].children[0].children[1].textContent;
-         const name = names[i].textContent.toLowerCase();
-         const searchValue = searchInput.value;
+/******************************************************
+*        
+*     searchBar Function
+*
+*********************************************************/
+/* Variables to reference the `input` and search `button` elements */
+const search = document.querySelector('.search-input');
+const submit = document.querySelector('#submit');
 
-         if(searchInput.value.length !== 0 && name.includes(searchValue.toLowerCase())){
-           names[i].classList.add('match');
-            console.log(studentName);
-         } else {
-            names[i].classList.remove('match');
-         }
-      }
+const searchBar = (searchInput, names) => {
+   // Clear any current pagination
+   const pagination = document.querySelector('div.pagination');
 
-      if (searchInput.value.length === 0) {
-         showPage(students, 1);
-         appendPageLinks(students);
-         return;
-       };
-
-      const matchItems = document.querySelectorAll('.match');
-         console.log(matchItems);
-         showPage(matchItems, 1);
-         appendPageLinks(matchItems);
+   //Remove any old pagination
+   if (pagination) {
+   pagination.parentNode.removeChild(pagination);
    };
 
-   /* submit listener */
-submit.addEventListener('click', (event) => {
-   event.preventDefault();
 
-   // Invoke your search function here - Arguments: search, tableCells
-  searchBar(search, students);
- 
- });
- 
-   /* submit listener */
-   
+   // loop through each student and add class name match if a match
+   for(let i = 0; i < names.length; i++) { 
+      const studentName = students[i].children[0].children[1].textContent;
+      const name = names[i].textContent.toLowerCase();
+      const searchValue = searchInput.value;
 
-   showPage(students, 1);
+      if(searchInput.value.length !== 0 && name.includes(searchValue.toLowerCase())){
+         names[i].classList.add('match');
+         names[i].style.display = 'list-item';
+         console.log(studentName);
+      } else {
+         names[i].classList.remove('match');
+         names[i].style.display = 'none';
+      }
+   }
+
+   if (searchInput.value.length === 0) {
+      showPage(students, 1);
+      appendPageLinks(students);
+      return;
+      };
+
+   const matchItems = document.querySelectorAll('.match');
+      console.log(matchItems);
+      showPage(matchItems, 1);
+      appendPageLinks(matchItems);
+};
+
+ 
+// Set original Page
+showPage(students, 1);
+     
+// Set Original Pagelinks
+appendPageLinks(students);
