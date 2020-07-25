@@ -47,16 +47,21 @@ const showPage = (list, page) => {
       }
    };
 };
-
-
+ 
 /******************************************************
 *        
 *     appendPageLinks Function
+*  @param list {htmlCollection} = HTML collection that is passed into the function and is the list that should be on page
+*  @param totalPages {number} = length of the list divided by itemsPerPage and then rounded up to nearest int.
+*  @param div {HTML Element} = pagination div created in function
+*  @param pageDiv {HTML Element} = global const that holds the .page div element
+*  @param ul {HTML Element} = UL that lists the page links
+*  @param li {HTML Element} = li element that has each link tag as a child.
 *
 *********************************************************/
 
 const appendPageLinks = (list) => {
-   const totalPages = Math.ceil(list.length / 10);
+   const totalPages = Math.ceil(list.length / itemsPerPage);
 
    // if only one page then don't make links
    if (totalPages === 1) {
