@@ -50,13 +50,15 @@ const showPage = (list, page) => {
  
 /******************************************************
 *        
-*     appendPageLinks Function
+*  appendPageLinks Function
 *  @param list {htmlCollection} = HTML collection that is passed into the function and is the list that should be on page
 *  @param totalPages {number} = length of the list divided by itemsPerPage and then rounded up to nearest int.
 *  @param div {HTML Element} = pagination div created in function
 *  @param pageDiv {HTML Element} = global const that holds the .page div element
 *  @param ul {HTML Element} = UL that lists the page links
 *  @param li {HTML Element} = li element that has each link tag as a child.
+* 
+*  @return no return. This function builds the pagelinks pagaination at the bottom of the list.
 *
 *********************************************************/
 
@@ -120,9 +122,6 @@ const appendPageLinks = (list) => {
    });
 };
 
-
-
-
    /******************************************************
    *        
    *     buildSearchBar Function
@@ -183,11 +182,19 @@ const buildSearchBar = () => {
 // Build The Search Bar
 buildSearchBar();
 
-/******************************************************
-*         SearchBar()
-*  @param 
-*
-*/
+   /******************************************************
+   *        
+   *     searchBar Function
+   *  @variable noMatchesNode {HTML Element} = Grabs the element wit no-matches id. 
+   *  @variable pagination {HTML element} = div that holds the pagination 
+   *  @variable searchValue {string} = vale of the search bar input
+   *  @variable studentName {string} = textContent of the student H3 which is the students name
+   *  @variable matches {HTML Collection} = collection of HTML elements that holds all the search result matches
+   *  @param searchInput = param passed to the function that holds the input from the search bar
+   *  @param names = HTML collection of the student list items  that is passed into the function
+   * 
+   *  @returns nothing function that gives the action to the searchbar
+   *********************************************************/
 
 const searchBar = (searchInput, names) => {
    // Clear any no results messages
