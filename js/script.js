@@ -126,7 +126,13 @@ const appendPageLinks = (list) => {
    /******************************************************
    *        
    *     buildSearchBar Function
-   *
+   *  @param pageHeader {HTML Element} = HTML element that  the search bar will be placed in
+   *  @param div {HTML element} = div created to be the student-search class div that holds the 
+   *  @param input {HTML Element} = input created to accept search parameters
+   *  @param button {HTML Element} = search button for search bar function
+   *  @param noMatch {HTML Element} = div created to display the message that no match was found
+   * 
+   *  @returns nothing Builds the search bar html using javascript.
    *********************************************************/
 const buildSearchBar = () => {
       // Grab pageHeader div to place the searchbar
@@ -178,10 +184,10 @@ const buildSearchBar = () => {
 buildSearchBar();
 
 /******************************************************
-*        
-*     searchBar Function
+*         SearchBar()
+*  @param 
 *
-*********************************************************/
+*/
 
 const searchBar = (searchInput, names) => {
    // Clear any no results messages
