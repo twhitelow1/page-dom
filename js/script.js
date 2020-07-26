@@ -5,6 +5,8 @@ FSJS project 2 - List Filter and Pagination
 DATE: 7/24/20
 
 A SIMPLE PROGRAM MEANT TO DISPLAY THE POWER OF THE DOM AND EVENT HANDLERS.
+
+AIMING TO RECIEVE EXCEEDING EXPECTATIONS
 ******************************************/
 
 /******************************************************
