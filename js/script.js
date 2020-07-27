@@ -18,6 +18,7 @@ const search = document.querySelector('.search-input');
 const submit = document.querySelector('#submit');
 const studentsDetails = document.querySelectorAll('.student-details h3');
 const pageDiv = document.querySelector('.page');
+const matches = document.querySelectorAll('.match');
 let   itemsPerPage = 10;
 
 
@@ -120,7 +121,11 @@ const appendPageLinks = (list) => {
       }
       
       // Switch to the correct page
-      showPage(students, currentPageNum);
+      if(matches){
+         showPage(matches, currentPageNum);
+      }else{
+         showPage(students, currentPageNum);
+      }
    });
 };
 
@@ -238,10 +243,6 @@ const searchBar = (searchInput, names) => {
       appendPageLinks(students);
       return;
       };
-
-   // Grab all the student list elements with the class match. Use this group as
-   // the list now instead of students
-   const matches = document.querySelectorAll('.match');
 
    // If no matches
   if (matches.length === 0) {
