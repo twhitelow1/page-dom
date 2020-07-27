@@ -119,9 +119,9 @@ const appendPageLinks = (list) => {
             selectedLink.classList.remove('active');
          }
       }
-      
+      let matches = document.querySelectorAll('.match');
       // Switch to the correct page
-      if(matches){
+      if(matches.length !== 0){
          showPage(matches, currentPageNum);
       }else{
          showPage(students, currentPageNum);
@@ -244,6 +244,7 @@ const searchBar = (searchInput, names) => {
       return;
       };
 
+   let matches = document.querySelectorAll('.match');
    // If no matches
   if (matches.length === 0) {
    noMatchesNode.style.display = '';
